@@ -2,6 +2,12 @@ import { Checkbox, Label, TextInput, Datepicker, Dropdown, DropdownItem } from "
 
 const KitchenInventoryForm = () => {
 
+  const PRODUCTS_NAMES_LIST = [
+    "Lomo Saltado",
+    "Ribeye",
+    "Hamburguesa"
+  ]
+
   return (
     <div className="mt-4">
         <h1>Formulario 1: Inventario Cocina - Conteo</h1>
@@ -23,10 +29,12 @@ const KitchenInventoryForm = () => {
         </div>
         
         <Dropdown label="Dropdown button" dismissOnClick={false}>
-          <DropdownItem>Dashboard</DropdownItem>
-          <DropdownItem>Settings</DropdownItem>
-          <DropdownItem>Earnings</DropdownItem>
-          <DropdownItem>Sign out</DropdownItem>
+
+          {PRODUCTS_NAMES_LIST.map(
+            (productName)=> <DropdownItem>{productName}</DropdownItem>
+          )}
+
+         
         </Dropdown>
       </div>
 
