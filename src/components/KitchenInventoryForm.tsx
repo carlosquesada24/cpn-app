@@ -1,29 +1,23 @@
-import { Checkbox, Label, TextInput } from "flowbite-react";
+import { Checkbox, Label, TextInput, Datepicker } from "flowbite-react";
 
 const KitchenInventoryForm = () => {
 
   return (
-    <div>
+    <div className="mt-4">
         <h1>Formulario 1: Inventario Cocina - Conteo</h1>
         <p>Este inventario es para Lorem ipsum dolor sit amet.</p>
       
-      <div>
+      <div className="mt-4">
         <div className="mb-2 block">
           <Label htmlFor="fecha de conteo" title="asd" className="text-black">Fecha de conteo</Label>
         </div>
         
-        <TextInput
-          id="fecha de conteo"
-          name="fecha de conteo"
-          type="text"
-          placeholder="Fecha de conteo"
-          required
-        />
+        <Datepicker />
       </div>
 
 
 
-<div>
+<div className="mt-4">
         <div className="mb-2 block">
           <Label htmlFor="selección de producto" className="text-[#000]">Selección de producto</Label>
         </div>
@@ -43,7 +37,7 @@ const KitchenInventoryForm = () => {
 
         
 
-        <div>
+        <div className="mt-4">
         <div className="mb-2 block">
           <Label htmlFor="Cantidad de ingreso" className="text-[#000]">Cantidad de ingreso</Label>
         </div>
@@ -59,7 +53,7 @@ const KitchenInventoryForm = () => {
 
 
 
- <div>
+ <div className="mt-4">
         <div className="mb-2 block">
           <Label htmlFor="unidad de medida ingreso" className="text-[#000]">unidad de medida ingreso</Label>
         </div>
@@ -75,7 +69,7 @@ const KitchenInventoryForm = () => {
 
 
 
-<div>
+<div className="mt-4">
         <div className="mb-2 block">
           <Label htmlFor="Cantidad de merma" className="text-[#000]">Cantidad de merma</Label>
         </div>
@@ -90,7 +84,7 @@ const KitchenInventoryForm = () => {
       </div>
 
        
-      <div>
+      <div className="mt-4">
         <div className="mb-2 block">
           <Label htmlFor="Unidad de medida merma" className="text-[#000]">Unidad de medida merma</Label>
         </div>
