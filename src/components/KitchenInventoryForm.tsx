@@ -18,6 +18,9 @@ const KitchenInventoryForm = () => {
     setSelectedProduct(productFound);
   }
 
+  const dropdownLabel =
+    selectedProduct !== null ? selectedProduct.name : "Seleccione 1 producto";
+
   return (
     <div className="mt-4">
       <h1>Formulario 1: Inventario Cocina - Conteo</h1>
@@ -40,7 +43,7 @@ const KitchenInventoryForm = () => {
           </Label>
         </div>
 
-        <Dropdown label="Seleccionar 1 producto" dismissOnClick={false}>
+        <Dropdown label={dropdownLabel} dismissOnClick={false}>
           {PRODUCTS_LIST.map(
             (product) =>
               product.status === PRODUCT_TYPES.PENDING && (
