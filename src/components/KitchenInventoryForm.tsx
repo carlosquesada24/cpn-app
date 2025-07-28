@@ -1,5 +1,5 @@
 import { Label, TextInput, Datepicker, Dropdown, DropdownItem } from "flowbite-react";
-import { PRODUCTS_LIST } from "../data";
+import { PRODUCT_TYPES, PRODUCTS_LIST } from "../data";
 
 const KitchenInventoryForm = () => {
 
@@ -26,7 +26,7 @@ const KitchenInventoryForm = () => {
         <Dropdown label="Seleccionar 1 producto" dismissOnClick={false}>
 
           {PRODUCTS_LIST.map(
-            (product)=> <DropdownItem>{product.name}</DropdownItem>
+            (product)=> product.status === PRODUCT_TYPES.PENDING && <DropdownItem>{product.name}</DropdownItem>
           )}
 
          
