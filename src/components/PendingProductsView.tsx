@@ -5,7 +5,7 @@ const PendingProductsView = () => {
     <div><h1 className='text-2xl font-bold'>Productos pendientes</h1>
       <ul>
         {
-          PRODUCTS_LIST.map(product => <li>{product}</li>)
+          PRODUCTS_LIST.map(product => <li>{product.name}</li>)
         }
       </ul></div>
   )

@@ -26,7 +26,7 @@ const KitchenInventoryForm = () => {
         <Dropdown label="Seleccionar 1 producto" dismissOnClick={false}>
 
           {PRODUCTS_LIST.map(
-            (productName)=> <DropdownItem>{productName}</DropdownItem>
+            (product)=> <DropdownItem>{product.name}</DropdownItem>
           )}
 
          
