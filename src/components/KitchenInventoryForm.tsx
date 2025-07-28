@@ -1,4 +1,4 @@
-import { Checkbox, Label, TextInput, Datepicker, Dropdown, DropdownItem } from "flowbite-react";
+import { Label, TextInput, Datepicker, Dropdown, DropdownItem } from "flowbite-react";
 
 const KitchenInventoryForm = () => {
 
@@ -23,7 +23,7 @@ const KitchenInventoryForm = () => {
 
 
 
-<div className="mt-4">
+      <div className="mt-4">
         <div className="mb-2 block">
           <Label htmlFor="selección de producto" className="text-[#000]">Selección de producto</Label>
         </div>
