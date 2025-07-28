@@ -1,5 +1,6 @@
 import './App.css'
 import KitchenInventoryForm from './components/KitchenInventoryForm'
+import PendingProductsView from './components/PendingProductsView'
 import { PRODUCTS_LIST } from './data'
 
 function App() {
@@ -10,12 +11,7 @@ function App() {
       <h1 className='text-2xl font-bold'>Formularios - Café Playa Negra</h1>
       <KitchenInventoryForm/>
       <hr />
-      <h1 className='text-2xl font-bold'>Productos pendientes</h1>
-      <ul>
-        {
-          PRODUCTS_LIST.map(product => <li>{product}</li>)
-        }
-      </ul>
+      <PendingProductsView/>
     </>
   )
 }
