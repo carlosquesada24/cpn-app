@@ -1,12 +1,7 @@
 import { Label, TextInput, Datepicker, Dropdown, DropdownItem } from "flowbite-react";
+import { PRODUCTS_LIST } from "../data";
 
 const KitchenInventoryForm = () => {
-
-  const PRODUCTS_NAMES_LIST = [
-    "Lomo Saltado",
-    "Ribeye",
-    "Hamburguesa"
-  ]
 
   return (
     <div className="mt-4">
@@ -28,9 +23,9 @@ const KitchenInventoryForm = () => {
           <Label htmlFor="selección de producto" className="text-[#000]">Selección de producto</Label>
         </div>
         
-        <Dropdown label="Dropdown button" dismissOnClick={false}>
+        <Dropdown label="Seleccionar 1 producto" dismissOnClick={false}>
 
-          {PRODUCTS_NAMES_LIST.map(
+          {PRODUCTS_LIST.map(
             (productName)=> <DropdownItem>{productName}</DropdownItem>
           )}
 
