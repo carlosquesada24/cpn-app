@@ -24,7 +24,7 @@ const Header = () => {
 
      <Navbar fluid rounded>
       <NavbarBrand as={Link} href="https://flowbite-react.com">
-        <span className="self-center whitespace-nowrap text-xl font-semibold dark:text-white">CPN App</span>
+        <Link to="/">Home</Link>
       </NavbarBrand>
       <NavbarToggle />
       <NavbarCollapse>
