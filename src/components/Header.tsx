@@ -1,20 +1,36 @@
 import { NavLink, Link } from "react-router";
 
+import { Navbar, NavbarBrand, NavbarCollapse, NavbarLink, NavbarToggle } from "flowbite-react";
+
+
+//  <nav>
+//       {/* NavLink makes it easy to show active states */}
+//       <NavLink
+//         to="/"
+//         className={({ isActive }) =>
+//           isActive ? "active" : ""
+//         }
+//       >
+//         Home
+//       </NavLink>
+
+//       <Link to="/concerts/salt-lake-city">Home</Link>
+//     </nav>
+
+
 const Header = () => {
   return (
-    <nav>
-      {/* NavLink makes it easy to show active states */}
-      <NavLink
-        to="/"
-        className={({ isActive }) =>
-          isActive ? "active" : ""
-        }
-      >
-        Home
-      </NavLink>
+   
 
-      <Link to="/concerts/salt-lake-city">Concerts</Link>
-    </nav>
+     <Navbar fluid rounded>
+      <NavbarBrand as={Link} href="https://flowbite-react.com">
+        <span className="self-center whitespace-nowrap text-xl font-semibold dark:text-white">CPN App</span>
+      </NavbarBrand>
+      <NavbarToggle />
+      <NavbarCollapse>
+        <Link to="/inventory">Inventarios</Link>
+      </NavbarCollapse>
+    </Navbar>
   );
 }
 
