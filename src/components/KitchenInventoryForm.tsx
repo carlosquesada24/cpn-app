@@ -23,8 +23,7 @@ const KitchenInventoryForm = () => {
 
   return (
     <div className="mt-4">
-      <h1>Formulario 1: Inventario Cocina - Conteo</h1>
-      <p>Este inventario es para Lorem ipsum dolor sit amet.</p>
+      <h1 className='text-2xl font-bold'>Formulario - Conteo Inventario Cocina</h1>
 
       <div className="mt-4">
         <div className="mb-2 block">
@@ -66,23 +65,7 @@ const KitchenInventoryForm = () => {
           id="Cantidad de ingreso"
           name="Cantidad de ingreso"
           type="text"
-          placeholder="Cantidad de ingreso"
-          required
-        />
-      </div>
-
-      <div className="mt-4">
-        <div className="mb-2 block">
-          <Label htmlFor="unidad de medida ingreso" className="text-[#000]">
-            unidad de medida ingreso
-          </Label>
-        </div>
-
-        <TextInput
-          id="name"
-          name="name"
-          type="text"
-          placeholder="unidad de medida ingreso"
+          placeholder="Ejemplo: 15"
           required
         />
       </div>
@@ -98,26 +81,11 @@ const KitchenInventoryForm = () => {
           id="name"
           name="name"
           type="text"
-          placeholder="Cantidad de merma"
+          placeholder="Ejemplo: 5"
           required
         />
       </div>
 
-      <div className="mt-4">
-        <div className="mb-2 block">
-          <Label htmlFor="Unidad de medida merma" className="text-[#000]">
-            Unidad de medida merma
-          </Label>
-        </div>
-
-        <TextInput
-          id="name"
-          name="name"
-          type="text"
-          placeholder="Unidad de medida merma"
-          required
-        />
-      </div>
 
       <button className="mt-4 text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800">Enviar</button>
     </div>
