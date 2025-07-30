@@ -9,7 +9,8 @@ createRoot(document.getElementById("root")!).render(
     <StrictMode>
       <Routes>
         <Route index element={<App />} />
-        <Route path="/inventory" element={<h1>Inventarios</h1>} />
+        <Route path="/inventory" element={<h1>Inventarios</h1>}/>
+         <Route path="/inventory-count-form" element={<h1>Formulario</h1>} />
       </Routes>
     </StrictMode>
   </BrowserRouter>
