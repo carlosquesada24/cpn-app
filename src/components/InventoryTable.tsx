@@ -1,10 +1,7 @@
-type ProductTest = {
-    name: string;
-    category: string;
-}
+import type { Product } from "../data";
 
 type InventoryTableProps = {
-    inventoryProductsList: ProductTest[]
+    inventoryProductsList: Product[]
 }
 
 const testList = [{
@@ -106,7 +103,7 @@ export function InventoryTable({inventoryProductsList}: InventoryTableProps) {
                     <tbody>
 
                         {
-                            testList.map(item => <tr className="border-b dark:border-gray-700">
+                            inventoryProductsList.map(item => <tr className="border-b dark:border-gray-700">
                             <th scope="row" className="px-4 py-3 font-medium text-gray-900 whitespace-nowrap dark:text-white">{item.name}</th>
                             <td className="px-4 py-3">{item.category}</td>
   
