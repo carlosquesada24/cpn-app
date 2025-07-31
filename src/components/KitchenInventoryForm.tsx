@@ -20,6 +20,9 @@ const KitchenInventoryForm = () => {
 
   const existsProductId = typeof productId === "string";
 
+const productFound =
+      PRODUCTS_LIST.find((product) => product.id === productId) || null;
+
   function getProductById(productId: string) {
     const productFound =
       PRODUCTS_LIST.find((product) => product.id === productId) || null;
@@ -58,7 +61,7 @@ const KitchenInventoryForm = () => {
             id="product-name"
             name="product-name"
             type="text"
-            value={"Lomo saltado"}
+            value={productFound?.name ?? ""}
             required
             disabled
           />
