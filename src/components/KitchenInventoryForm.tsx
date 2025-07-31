@@ -7,9 +7,18 @@ import {
 } from "flowbite-react";
 import { PRODUCT_TYPES, PRODUCTS_LIST } from "../data";
 import { useState } from "react";
+import { useParams } from "react-router";
+
+type KitchenInventoryFormProps = {
+  productId?: string
+}
 
 const KitchenInventoryForm = () => {
   const [selectedProduct, setSelectedProduct] = useState<any>(null);
+
+  const {productId} = useParams()
+
+  const existsProductId = typeof productId === "string"
 
   function getProductById(productId: string) {
     const productFound =
@@ -35,7 +44,26 @@ const KitchenInventoryForm = () => {
         <Datepicker />
       </div>
 
-      <div className="mt-4">
+      {
+        existsProductId 
+          ? (<div className="mt-4">
+        <div className="mb-2 block">
+          <Label htmlFor="selección de producto" className="text-[#000]">
+            Producto
+          </Label>
+        </div>
+
+         <TextInput
+          id="product-name"
+          name="product-name"
+          type="text"
+          value={"Lomo saltado"}
+          required
+          disabled
+        />
+      </div>)
+      : (
+<div className="mt-4">
         <div className="mb-2 block">
           <Label htmlFor="selección de producto" className="text-[#000]">
             Selección de producto
@@ -53,6 +81,13 @@ const KitchenInventoryForm = () => {
           )}
         </Dropdown>
       </div>
+      )
+      }
+
+
+      
+
+      
 
       <div className="mt-4">
         <div className="mb-2 block">
