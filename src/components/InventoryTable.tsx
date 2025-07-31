@@ -110,7 +110,7 @@ export function InventoryTable({inventoryProductsList}: InventoryTableProps) {
                                 <div id="apple-imac-27-dropdown" className="z-10 w-44 bg-white rounded divide-y divide-gray-100 shadow dark:bg-gray-700 dark:divide-gray-600">
                                     <ul className="py-1 text-sm text-gray-700 dark:text-gray-200" aria-labelledby="apple-imac-27-dropdown-button">
                                         <li>
-                                            <Link to="/inventory-count-form" className="block py-2 px-4 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Contar</Link>
+                                            <Link to={"/inventory-count-form/" + item.id} className="block py-2 px-4 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Contar</Link>
                                         </li>
                                         <li>
                                             <a href="#" className="block py-2 px-4 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Editar</a>
