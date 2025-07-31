@@ -1,6 +1,4 @@
-import { Link } from "react-router"
 import { InventoryTable } from "../components/InventoryTable"
-import Table from "../components/Table/Table"
 import { PRODUCTS_LIST } from "../data"
 
 const InventoryView = () => {

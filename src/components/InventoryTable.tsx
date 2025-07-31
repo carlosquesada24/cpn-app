@@ -4,13 +4,6 @@ type InventoryTableProps = {
     inventoryProductsList: Product[]
 }
 
-const testList = [{
-    name: "product 1",
-    category: "cateogy 1"
-}, {name: "product 2",
-    category: "cateogy 2"
-}]
-
 export function InventoryTable({inventoryProductsList}: InventoryTableProps) {
   return (
     <div className="bg-white dark:bg-gray-800 relative shadow-md sm:rounded-lg overflow-hidden">
