@@ -15,6 +15,7 @@ createRoot(document.getElementById("root")!).render(
         <Route index element={<App />} />
         <Route path="/inventory" element={<InventoryView/>}/>
          <Route path="/inventory-count-form" element={<KitchenInventoryForm/>} />
+         <Route path="/inventory-count-form/:productId" element={<KitchenInventoryForm/>} />
       </Routes>
     </StrictMode>
   </BrowserRouter>
