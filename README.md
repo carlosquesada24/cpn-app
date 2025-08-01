@@ -19,3 +19,12 @@ Esta destinado para cumplir con 3 funcionalidades clave
 
 ## 0.4
 - Lógica básica formulario Pedidos ingredientes a proveedores
+
+
+
+### Formulario conteo - Vista personalizada
+[Video explicativo](https://www.loom.com/share/c857529d27aa4314be723b2ad6062923?sid=7e5f83b3-15e2-4136-b1ec-ddc141396e3b)
+
+
+
+
