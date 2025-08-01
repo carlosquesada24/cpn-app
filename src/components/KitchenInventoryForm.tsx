@@ -8,10 +8,21 @@ import {
 import { PRODUCT_TYPES, PRODUCTS_LIST } from "../data";
 import { useState } from "react";
 import { useParams } from "react-router";
+import { useForm } from "../hooks/useForm";
 
 type KitchenInventoryFormProps = {
   productId?: string;
 };
+
+const KITCHEN_INVENTORY_FORM_INITIAL_VALUES = {
+  ingresoQuantity: 0,
+  mermaQuantity: 0
+}
+
+const KITCHEN_INVENTORY_FORM_VALIDATIONS = {
+
+}
+
 
 const KitchenInventoryForm = () => {
   const [selectedProduct, setSelectedProduct] = useState<any>(null);
@@ -19,6 +30,8 @@ const KitchenInventoryForm = () => {
   const { productId } = useParams();
 
   const existsProductId = typeof productId === "string";
+
+  const {values: formValues, handleInputChange} = useForm(KITCHEN_INVENTORY_FORM_INITIAL_VALUES, KITCHEN_INVENTORY_FORM_VALIDATIONS)
 
 const productFound =
       PRODUCTS_LIST.find((product) => product.id === productId) || null;
@@ -89,14 +102,14 @@ const productFound =
 
       <div className="mt-4">
         <div className="mb-2 block">
-          <Label htmlFor="Cantidad de ingreso" className="text-[#000]">
+          <Label htmlFor="ingresoQuantity" className="text-[#000]">
             Cantidad de ingreso
           </Label>
         </div>
 
         <TextInput
-          id="Cantidad de ingreso"
-          name="Cantidad de ingreso"
+          id="ingresoQuantity"
+          name="ingresoQuantity"
           type="text"
           placeholder="Ejemplo: 15"
           required
@@ -105,14 +118,14 @@ const productFound =
 
       <div className="mt-4">
         <div className="mb-2 block">
-          <Label htmlFor="Cantidad de merma" className="text-[#000]">
+          <Label htmlFor="mermaQuantity" className="text-[#000]">
             Cantidad de merma
           </Label>
         </div>
 
         <TextInput
-          id="name"
-          name="name"
+          id="mermaQuantity"
+          name="mermaQuantity"
           type="text"
           placeholder="Ejemplo: 5"
           required
