@@ -15,8 +15,8 @@ type KitchenInventoryFormProps = {
 };
 
 const KITCHEN_INVENTORY_FORM_INITIAL_VALUES = {
-  ingresoQuantity: 0,
-  mermaQuantity: 0
+  ingresoQuantity: "0",
+  mermaQuantity: "0"
 }
 
 const KITCHEN_INVENTORY_FORM_VALIDATIONS = {
@@ -113,6 +113,9 @@ const productFound =
           type="text"
           placeholder="Ejemplo: 15"
           required
+          onChange={(event) => {
+            handleInputChange(event.target.name, event.target.value)
+          }}
         />
       </div>
 
@@ -129,6 +132,9 @@ const productFound =
           type="text"
           placeholder="Ejemplo: 5"
           required
+          onChange={(event) => {
+            handleInputChange(event.target.name, event.target.value)
+          }}
         />
       </div>
 
