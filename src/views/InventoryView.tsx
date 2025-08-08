@@ -10,32 +10,32 @@ const InventoryView = () => {
 
 
 
- useEffect(()=> {
+  useEffect(() => {
 
-const getAllProducts = async () =>  {
-    const { data, error } = await supabase.from("Products").select(`
+    const getAllProducts = async () => {
+      const { data, error } = await supabase.from("Products").select(`
         name, 
         status,
         category
         `);
 
-    if (error) {
+      if (error) {
         console.log({ error });
-    }
+      }
 
-    const isDataNullable = data?.length === 0 || data == null
+      const isDataNullable = data?.length === 0 || data == null
 
-    setProducts(isDataNullable ? [] : data)
-};
-   getAllProducts()
- }, [])
+      setProducts(isDataNullable ? [] : data)
+    };
+    getAllProducts()
+  }, [])
 
   return (
     <div>
-        <h1 className='text-2xl font-bold mb-4'>Inventarios</h1>
-        
-    
-        <InventoryTable inventoryProductsList={products}/>
+      <h1 className='text-2xl font-bold mb-4'>Inventarios</h1>
+
+
+      <InventoryTable inventoryProductsList={products} />
     </div>
   )
 }
