@@ -2,32 +2,40 @@ import { Link } from "react-router"
 import { InventoryTable } from "../components/InventoryTable"
 import { PRODUCTS_LIST } from "../data"
 import supabase from "../utils/supabase";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 
 const InventoryView = () => {
 
-const getAllProducts = async() =>  {
+  const [products, setProducts] = useState<any[]>(PRODUCTS_LIST)
+
+
+
+ useEffect(()=> {
+
+const getAllProducts = async () =>  {
     const { data, error } = await supabase.from("Products").select(`
-        name
+        name, 
+        status,
+        category
         `);
 
     if (error) {
         console.log({ error });
     }
 
-    console.log({ data, error});
-};
+    const isDataNullable = data?.length === 0 || data == null
 
-useEffect(()=> {
-  getAllProducts()
-})
+    setProducts(isDataNullable ? [] : data)
+};
+   getAllProducts()
+ }, [])
 
   return (
     <div>
         <h1 className='text-2xl font-bold mb-4'>Inventarios</h1>
         
     
-        <InventoryTable inventoryProductsList={PRODUCTS_LIST}/>
+        <InventoryTable inventoryProductsList={products}/>
     </div>
   )
 }
