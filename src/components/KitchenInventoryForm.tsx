@@ -6,8 +6,9 @@ import {
   DropdownItem,
 } from "flowbite-react";
 import { PRODUCT_TYPES, PRODUCTS_LIST } from "../data";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useParams } from "react-router";
+import supabase from "../utils/supabase";
 
 type KitchenInventoryFormProps = {
   productId?: string;
@@ -19,6 +20,33 @@ const KitchenInventoryForm = () => {
   const { productId } = useParams();
 
   const existsProductId = typeof productId === "string";
+
+
+ useEffect(() => {
+
+    const getProductById = async () => {
+      const { data, error } = await supabase.from("Products").select(`
+        id,
+        name, 
+        status,
+        category
+        `).eq('id', 1)
+        .single()
+
+      if (error) {
+        console.log({ error });
+      }
+
+      const isDataNullable = data?.length === 0 || data == null
+
+      console.log(data)
+
+      // setProducts(isDataNullable ? [] : data)
+    };
+    getProductById()
+  }, [])
+
+
 
 const productFound =
       PRODUCTS_LIST.find((product) => product.id === productId) || null;
