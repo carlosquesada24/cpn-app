@@ -87,7 +87,7 @@ const productFound =
     const newCount = previousCount + valueToSum
 
     // Paso 3 - Editar en la DB
-    const {data, error} = await supabase.from('Products').update({count: newCount}).eq('id', 23)
+    const {data, error} = await supabase.from('Products').update({count: newCount}).eq('id', productId)
     console.log(data, error)
   }
 
