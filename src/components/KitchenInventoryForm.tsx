@@ -32,7 +32,8 @@ const KitchenInventoryForm = () => {
         id,
         name, 
         status,
-        category
+        category,
+        count
         `).eq('id', productId)
         .single()
 
@@ -63,6 +64,13 @@ const productFound =
 
   const dropdownLabel =
     selectedProduct !== null ? selectedProduct.name : "Seleccione 1 producto";
+
+  const onSubmit = async () => {
+    alert("Enviando!")
+
+    const {data, error} = await supabase.from('Products').update({count: 11}).eq('id', 6)
+    console.log(data, error)
+  }
 
   return (
     <div className="mt-4">
@@ -150,7 +158,7 @@ const productFound =
         />
       </div>
 
-      <button className="mt-4 text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800">
+      <button onClick={onSubmit} className="mt-4 text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800">
         Enviar
       </button>
     </div>
