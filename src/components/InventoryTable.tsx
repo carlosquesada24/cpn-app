@@ -89,6 +89,7 @@ export function InventoryTable({inventoryProductsList}: InventoryTableProps) {
                     <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
                         <tr>
                             <th scope="col" className="px-4 py-3">Nombre</th>
+                            <th scope="col" className="px-4 py-3">Estado</th>
                             <th scope="col" className="px-4 py-3">Categoría</th>
                             <th scope="col" className="px-4 py-3">
                                 Acciones
@@ -100,6 +101,7 @@ export function InventoryTable({inventoryProductsList}: InventoryTableProps) {
                         {
                             inventoryProductsList.map(item => <tr className="border-b dark:border-gray-700">
                             <th scope="row" className="px-4 py-3 font-medium text-gray-900 whitespace-nowrap dark:text-white">{item.name}</th>
+                            <td className="px-4 py-3">{item.status}</td>
                             <td className="px-4 py-3">{item.category}</td>
   
                             <td className="px-4 py-3 flex items-center justify-end">
