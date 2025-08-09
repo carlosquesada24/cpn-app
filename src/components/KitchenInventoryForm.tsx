@@ -9,15 +9,24 @@ import { PRODUCT_TYPES, PRODUCTS_LIST } from "../data";
 import { useEffect, useState } from "react";
 import { useParams } from "react-router";
 import supabase from "../utils/supabase";
+import { useForm } from "../hooks/useForm";
 
 type KitchenInventoryFormProps = {
   productId?: string;
 };
 
+const KITCHEN_INVENTORY_FORM_INITIAL_STATE = {
+  cantidadIngreso: null, 
+  cantidadMerma: null
+}
+
 const KitchenInventoryForm = () => {
   const [selectedProduct, setSelectedProduct] = useState<any>(null);
 
   const { productId } = useParams();
+
+  const {values: formValues, handleInputChange} = useForm(KITCHEN_INVENTORY_FORM_INITIAL_STATE, {})
+
 
   const existsProductId = typeof productId === "string";
 
@@ -68,7 +77,17 @@ const productFound =
   const onSubmit = async () => {
     alert("Enviando!")
 
-    const {data, error} = await supabase.from('Products').update({count: 11}).eq('id', 6)
+    // Paso 1 - Convertir los datos a números
+    const previousCount = selectedProduct?.count ?? 0
+    const cantidadIngresoNumero = parseInt(`${formValues?.cantidadIngreso}`) ?? 0
+    const cantidadMermaNumero = parseInt(`${formValues?.cantidadMerma}`) ?? 0
+
+    // Paso 2 - Hacer las restas y sumas
+    const valueToSum = cantidadIngresoNumero - cantidadMermaNumero
+    const newCount = previousCount + valueToSum
+
+    // Paso 3 - Editar en la DB
+    const {data, error} = await supabase.from('Products').update({count: newCount}).eq('id', 23)
     console.log(data, error)
   }
 
@@ -135,10 +154,12 @@ const productFound =
 
         <TextInput
           id="Cantidad de ingreso"
-          name="Cantidad de ingreso"
+          name="cantidadIngreso"
           type="text"
           placeholder="Ejemplo: 15"
           required
+          onChange={(e) => handleInputChange(e.target.name, e.target.value)}
+          value={formValues.cantidadIngreso}
         />
       </div>
 
@@ -151,10 +172,12 @@ const productFound =
 
         <TextInput
           id="name"
-          name="name"
+          name="cantidadMerma"
           type="text"
           placeholder="Ejemplo: 5"
           required
+          onChange={(e) => handleInputChange(e.target.name, e.target.value)}
+          value={formValues.cantidadMerma}
         />
       </div>
 
