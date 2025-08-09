@@ -37,11 +37,11 @@ const KitchenInventoryForm = () => {
         console.log({ error });
       }
 
-      const isDataNullable = data?.length === 0 || data == null
+      const isDataNullable = data == null
 
       console.log(data)
 
-      // setProducts(isDataNullable ? [] : data)
+      setSelectedProduct(isDataNullable ? {} : data)
     };
     getProductById()
   }, [])
@@ -89,7 +89,7 @@ const productFound =
             id="product-name"
             name="product-name"
             type="text"
-            value={productFound?.name ?? ""}
+            value={selectedProduct?.name ?? ""}
             required
             disabled
           />
