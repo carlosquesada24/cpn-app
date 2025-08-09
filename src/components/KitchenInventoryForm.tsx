@@ -25,12 +25,15 @@ const KitchenInventoryForm = () => {
  useEffect(() => {
 
     const getProductById = async () => {
+
+      console.log({productId})
+
       const { data, error } = await supabase.from("Products").select(`
         id,
         name, 
         status,
         category
-        `).eq('id', 1)
+        `).eq('id', productId)
         .single()
 
       if (error) {
