@@ -7,7 +7,7 @@ import {
 } from "flowbite-react";
 import { PRODUCT_TYPES, PRODUCTS_LIST } from "../data";
 import { useEffect, useState } from "react";
-import { useParams } from "react-router";
+import { useNavigate, useParams } from "react-router";
 import supabase from "../utils/supabase";
 import { useForm } from "../hooks/useForm";
 
@@ -30,6 +30,7 @@ const KitchenInventoryForm = () => {
 
   const existsProductId = typeof productId === "string";
 
+  const navigate = useNavigate()
 
  useEffect(() => {
 
@@ -89,6 +90,9 @@ const productFound =
     // Paso 3 - Editar en la DB
     const {data, error} = await supabase.from('Products').update({count: newCount}).eq('id', productId)
     console.log(data, error)
+
+    // Paso 4 - Redireccionar a la vista de inventory
+    navigate("/inventory")
   }
 
   return (
