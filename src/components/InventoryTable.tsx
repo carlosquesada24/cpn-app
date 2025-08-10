@@ -24,10 +24,9 @@ const [openDropdownId, setOpenDropdownId] = useState(null);
     setOpenDropdownId((prev) => (prev === id ? null : id));
   };
 
-
   return (
     <div className="bg-white dark:bg-gray-800 relative shadow-md sm:rounded-lg overflow-hidden">
-            <div className="flex flex-col md:flex-row items-center justify-between space-y-3 md:space-y-0 md:space-x-4 p-4">
+            {/* <div className="flex flex-col md:flex-row items-center justify-between space-y-3 md:space-y-0 md:space-x-4 p-4">
                 <div className="w-full md:w-1/2">
                     <form className="flex items-center">
                         <label htmlFor="simple-search" className="sr-only">Buscar</label>
@@ -102,13 +101,14 @@ const [openDropdownId, setOpenDropdownId] = useState(null);
                         </div>
                     </div>
                 </div>
-            </div>
+            </div> */}
             <div className="overflow-x-auto">
                 <table className="w-full text-sm text-left text-gray-500 dark:text-gray-400">
                     <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
                         <tr>
                             <th scope="col" className="px-4 py-3">Nombre</th>
                             <th scope="col" className="px-4 py-3">Estado</th>
+                            <th scope="col" className="px-4 py-3">Cantidad</th>
                             <th scope="col" className="px-4 py-3">Categoría</th>
                             <th scope="col" className="px-4 py-3">
                                 Acciones
@@ -126,7 +126,10 @@ const [openDropdownId, setOpenDropdownId] = useState(null);
                                 >{PRODUCT_TYPES_TITLES_ON_TABLE[item.status]}</span>
 
                                 </td>
+                            <td className="px-4 py-3">{item?.count ?? 0}</td>
+
                             <td className="px-4 py-3">{item.category}</td>
+
   
                             <td className="px-4 py-3 flex items-center justify-end">
                                 <button id="apple-imac-27-dropdown-button" onClick={() => toggleDropdown(item.id)} data-dropdown-toggle="apple-imac-27-dropdown" className="inline-flex items-center p-0.5 text-sm font-medium text-center text-gray-500 hover:text-gray-800 rounded-lg focus:outline-none dark:text-gray-400 dark:hover:text-gray-100" type="button">
