@@ -1,6 +1,6 @@
 export const PRODUCT_TYPES = {
-  PENDING: "pending",
-  DONE: "done",
+  PENDING: "PENDING",
+  DONE: "DONE",
 };
 
 export type Product = {
