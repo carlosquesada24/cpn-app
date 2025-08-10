@@ -17,7 +17,8 @@ const InventoryView = () => {
         id,
         name, 
         status,
-        category
+        category,
+        count
         `);
 
       if (error) {
