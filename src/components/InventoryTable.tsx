@@ -7,8 +7,8 @@ type InventoryTableProps = {
 }
 
 export const PRODUCT_TYPES_TITLES_ON_TABLE = {
-  [PRODUCT_TYPES.PENDING]: "Pendiente de contar",
-  [PRODUCT_TYPES.DONE]: "Contado con éxito"
+  [PRODUCT_TYPES.PENDING]: "Pendiente",
+  [PRODUCT_TYPES.DONE]: "Contado"
 }
 
 const BADGE_STYLES = {
@@ -120,7 +120,12 @@ const [openDropdownId, setOpenDropdownId] = useState(null);
                         {
                             inventoryProductsList.map(item => <tr className="border-b dark:border-gray-700">
                             <th scope="row" className="px-4 py-3 font-medium text-gray-900 whitespace-nowrap dark:text-white">{item.name}</th>
-                            <td className="px-4 py-3">{PRODUCT_TYPES_TITLES_ON_TABLE[item.status]}</td>
+                            <td className="px-4 py-3">
+                                <span 
+                                    className={BADGE_STYLES[item.status]}
+                                >{PRODUCT_TYPES_TITLES_ON_TABLE[item.status]}</span>
+
+                                </td>
                             <td className="px-4 py-3">{item.category}</td>
   
                             <td className="px-4 py-3 flex items-center justify-end">
