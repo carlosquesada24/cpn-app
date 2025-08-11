@@ -6,6 +6,7 @@ import { BrowserRouter, Route, Routes } from "react-router";
 import Header from "./components/Header.tsx";
 import InventoryView from "./views/InventoryView.tsx";
 import KitchenInventoryForm from "./components/KitchenInventoryForm.tsx";
+import ReportsView from "./views/ReportsView.tsx";
 
 createRoot(document.getElementById("root")!).render(
   <BrowserRouter>
@@ -16,6 +17,7 @@ createRoot(document.getElementById("root")!).render(
         <Route path="/inventory" element={<InventoryView/>}/>
          <Route path="/inventory-count-form" element={<KitchenInventoryForm/>} />
          <Route path="/inventory-count-form/:productId" element={<KitchenInventoryForm/>} />
+         <Route path="/reports" element={<ReportsView/>}/>
       </Routes>
     </StrictMode>
   </BrowserRouter>
