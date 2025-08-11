@@ -36,7 +36,6 @@ const KitchenInventoryForm = () => {
 
     const getProductById = async () => {
 
-      console.log({productId})
 
       const { data, error } = await supabase.from("Products").select(`
         id,
@@ -53,7 +52,7 @@ const KitchenInventoryForm = () => {
 
       const isDataNullable = data == null
 
-      console.log(data)
+ 
 
       setSelectedProduct(isDataNullable ? {} : data)
     };
@@ -76,8 +75,7 @@ const productFound =
     selectedProduct !== null ? selectedProduct.name : "Seleccione 1 producto";
 
   const onSubmit = async () => {
-    alert("Enviando!")
-
+  
     // Paso 1 - Convertir los datos a números
     const previousCount = selectedProduct?.count ?? 0
     const cantidadIngresoNumero = parseInt(`${formValues?.cantidadIngreso}`) ?? 0
@@ -90,6 +88,8 @@ const productFound =
     // Paso 3 - Editar en la DB
     const {data, error} = await supabase.from('Products').update({count: newCount, status: "DONE"}).eq('id', productId)
     console.log(data, error)
+
+    !error ? alert("Producto contado con éxito!") : alert("Hubo un error!")
 
     // Paso 4 - Redireccionar a la vista de inventory
     navigate("/inventory")
