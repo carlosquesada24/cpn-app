@@ -20,12 +20,8 @@ import { Navbar, NavbarBrand, NavbarCollapse, NavbarLink, NavbarToggle } from "f
 
 const Header = () => {
   return (
-   
-
      <Navbar fluid rounded>
-      <NavbarBrand as={Link} href="https://flowbite-react.com">
         <Link to="/">Home</Link>
-      </NavbarBrand>
       <NavbarToggle />
       <NavbarCollapse>
         <Link to="/inventory">Inventarios</Link>

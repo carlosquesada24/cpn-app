@@ -118,7 +118,7 @@ const [openDropdownId, setOpenDropdownId] = useState(null);
                     <tbody>
 
                         {
-                            inventoryProductsList.map(item => <tr className="border-b dark:border-gray-700">
+                            inventoryProductsList.map(item => <tr key={item.id} className="border-b dark:border-gray-700">
                             <th scope="row" className="px-4 py-3 font-medium text-gray-900 whitespace-nowrap dark:text-white">{item.name}</th>
                             <td className="px-4 py-3">
                                 <span 
