@@ -11,13 +11,9 @@ import { useNavigate, useParams } from "react-router";
 import supabase from "../utils/supabase";
 import { useForm } from "../hooks/useForm";
 
-type KitchenInventoryFormProps = {
-  productId?: string;
-};
-
 const KITCHEN_INVENTORY_FORM_INITIAL_STATE = {
-  cantidadIngreso: null, 
-  cantidadMerma: null
+  cantidadIngreso: "", 
+  cantidadMerma: ""
 }
 
 const KitchenInventoryForm = () => {
@@ -58,11 +54,6 @@ const KitchenInventoryForm = () => {
     };
     getProductById()
   }, [])
-
-
-
-const productFound =
-      PRODUCTS_LIST.find((product) => product.id === productId) || null;
 
   function getProductById(productId: string) {
     const productFound =

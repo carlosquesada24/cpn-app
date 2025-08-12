@@ -1,4 +1,3 @@
-import { Link } from "react-router"
 import { InventoryTable } from "../components/InventoryTable"
 import { PRODUCTS_LIST } from "../data"
 import supabase from "../utils/supabase";

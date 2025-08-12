@@ -58,11 +58,6 @@ export const useForm = <T extends {}>(
     return isValid;
   };
 
-  const handleSubmit = (e: any) => {
-    validateAllFields();
-    e.preventDefault();
-  };
-
   return {
     values,
     errors,

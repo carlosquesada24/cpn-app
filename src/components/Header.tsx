@@ -1,6 +1,6 @@
-import { NavLink, Link } from "react-router";
+import { Link } from "react-router";
 
-import { Navbar, NavbarBrand, NavbarCollapse, NavbarLink, NavbarToggle } from "flowbite-react";
+import { Navbar, NavbarCollapse, NavbarToggle } from "flowbite-react";
 
 
 //  <nav>
