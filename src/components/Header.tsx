@@ -25,6 +25,7 @@ const Header = () => {
       <NavbarToggle />
       <NavbarCollapse>
         <Link to="/inventory">Inventarios</Link>
+        <Link to="/orders">Pedidos</Link>
       </NavbarCollapse>
     </Navbar>
   );
