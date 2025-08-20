@@ -118,7 +118,7 @@ function App() {
         options={chart1.options}
         series={chart1.series}
         type="bar"
-        width="500"
+        width="100%"
       />
     </>
   )
