@@ -21,13 +21,46 @@ function App() {
           ]
   }
 
+const chart2 = {
+    options: {
+            chart: {
+              id: "basic-bar"
+            },
+            xaxis: {
+              categories: ["Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto"]
+            },
+          },
+          series: [
+            {
+              name: "series-1",
+              data: [1000000, 500000, 750000, 750000, 750000, 750000, 750000, 750000]
+            }
+          ]
+  }
 
+  const chart3 = {
+    options: {
+            chart: {
+              id: "basic-bar"
+            },
+            xaxis: {
+              categories: ["Q1", "Q2", "Q3", "Q4"]
+            },
+          },
+          series: [
+            {
+              name: "series-1",
+              data: [1000000, 500000, 750000, 750000]
+            }
+          ]
+  }
   
   return (
     <>    
       <h1 className='text-2xl font-bold'>Dashboard</h1>
+      
+      <h2 className='text-1xl font-bold'>Mes: Agosto</h2>
 
-      <hr />
 
       <div className="mb-4 max-w-sm p-6 bg-white border border-gray-200 rounded-lg shadow-sm dark:bg-gray-800 dark:border-gray-700">
           <a href="#">
@@ -47,9 +80,8 @@ function App() {
       </div>
 
 
-      <hr />
       
-      <div className="mt-4 max-w-sm w-full bg-white rounded-lg shadow-sm dark:bg-gray-800 p-4 md:p-6">
+      {/* <div className="mt-4 max-w-sm w-full bg-white rounded-lg shadow-sm dark:bg-gray-800 p-4 md:p-6">
         <div className="flex justify-between">
           <div>
             <h5 className="leading-none text-3xl font-bold text-gray-900 dark:text-white pb-2">32.4k</h5>
@@ -108,16 +140,18 @@ function App() {
             </a>
           </div>
         </div>
-      </div>
+      </div> */}
 
 
-      <hr />
+      {/* <hr /> */}
 
+
+      <h1 className='text-2xl font-bold'>Anual</h1>
 
       <Chart
-        options={chart1.options}
-        series={chart1.series}
-        type="bar"
+        options={chart3.options}
+        series={chart3.series}
+        type="line"
         width="100%"
       />
     </>
