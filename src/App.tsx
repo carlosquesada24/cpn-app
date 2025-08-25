@@ -1,8 +1,31 @@
 import './App.css'
 import Chart from "react-apexcharts";
+import * as XLSX from "xlsx";
+import fs from "fs";
+import { useEffect } from 'react';
 
+
+
+const getThisMonthName = () => {
+// Mes actual en número (1 = enero, 12 = diciembre)
+const mesNumero = new Date().getMonth() + 1;
+console.log("Mes en número:", mesNumero);
+
+// Mes actual en nombre (ej: "Febrero")
+const meses = [
+  "Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio",
+  "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"
+];
+const mesNombre = meses[new Date().getMonth()];
+
+return mesNombre
+}
 
 function App() {
+
+  const thisMonthName = getThisMonthName()
+  
+console.log("Mes en nombre:", thisMonthName);
     
   const chart1 = {
     options: {
@@ -54,12 +77,68 @@ const chart2 = {
             }
           ]
   }
+
+
+ const runIngresosyGastos = async () => {
+      try {
+        // Si el archivo está en /public/data/EJEMPLO FLUJO INGRESO Y SALIDAS.xlsx
+        const res = await fetch("/public/EJEMPLO FLUJO INGRESO Y SALIDAS.xlsx");
+        if (!res.ok) throw new Error("No se pudo cargar el archivo");
+
+        const buf = await res.arrayBuffer();
+
+        // Leer workbook desde ArrayBuffer (navegador)
+        const wb = XLSX.read(buf, { type: "array" });
+
+        // Hoja: primera o por nombre
+        const ws = wb.Sheets[wb.SheetNames[0]];
+
+        // A arrays (primera fila = encabezados)
+        const data = XLSX.utils.sheet_to_json(ws, { header: 1 });
+
+        console.log(data);
+        // setRows(data);
+      } catch (err) {
+        console.error(err);
+      }
+    };
+
+    runIngresosyGastos(); // <-- llamamos la IIFE async (sin await aquí)
+
+
+ const fetchReporteVentaHabitaciones = async () => {
+      try {
+        // 1. Cargar archivo desde /public/data
+        const res = await fetch("/public/REPORTE VENTA DE HABOTACIONES (1).xlsx");
+        if (!res.ok) throw new Error("No se pudo cargar el archivo");
+
+        const buf = await res.arrayBuffer();
+
+        // 2. Leer workbook
+        const workbook = XLSX.read(buf, { type: "array" });
+
+        // 3. Seleccionar la primera hoja (o por nombre si lo conocés)
+        const sheetName = workbook.SheetNames[0];
+        const sheet = workbook.Sheets[sheetName];
+
+        // 4. Convertir a arrays (filas)
+        const data = XLSX.utils.sheet_to_json(sheet, { header: 1, range: "A1:E30" });
+
+        console.log(data);
+        // setRows(data);
+      } catch (err) {
+        console.error("Error leyendo Excel:", err);
+      }
+    };
+
+    fetchReporteVentaHabitaciones();
+
   
   return (
     <>    
       <h1 className='text-2xl font-bold'>Dashboard</h1>
       
-      <h2 className='text-1xl font-bold'>Mes: Agosto</h2>
+      <h2 className='text-1xl font-bold'>Mes: {thisMonthName}</h2>
 
 
       <div className="mb-4 max-w-sm p-6 bg-white border border-gray-200 rounded-lg shadow-sm dark:bg-gray-800 dark:border-gray-700">
