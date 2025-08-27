@@ -1,31 +1,18 @@
 import './App.css'
 import Chart from "react-apexcharts";
-import * as XLSX from "xlsx";
-import fs from "fs";
-import { useEffect } from 'react';
-
-
-
-const getThisMonthName = () => {
-// Mes actual en número (1 = enero, 12 = diciembre)
-const mesNumero = new Date().getMonth() + 1;
-console.log("Mes en número:", mesNumero);
-
-// Mes actual en nombre (ej: "Febrero")
-const meses = [
-  "Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio",
-  "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"
-];
-const mesNombre = meses[new Date().getMonth()];
-
-return mesNombre
-}
+import { getThisMonthName } from './utils/dates';
+import { fetchReporteVentaHabitaciones, fetchVentasSkill, getNetSalesBooking, getNetSalesRestaurant, runIngresosyGastos } from './utils/csv';
+import { useState } from 'react';
 
 function App() {
 
-  const thisMonthName = getThisMonthName()
+const [netSalesRooms, setNetSalesRooms] = useState(0)
+const [netSalesRestaurant, setNetSalesRestaurant] = useState(0)
+
+  const [netSales, setNetSales] = useState(0)
+
+const thisMonthName = getThisMonthName()
   
-console.log("Mes en nombre:", thisMonthName);
     
   const chart1 = {
     options: {
@@ -78,62 +65,28 @@ const chart2 = {
           ]
   }
 
+    // runIngresosyGastos();
 
- const runIngresosyGastos = async () => {
-      try {
-        // Si el archivo está en /public/data/EJEMPLO FLUJO INGRESO Y SALIDAS.xlsx
-        const res = await fetch("/public/EJEMPLO FLUJO INGRESO Y SALIDAS.xlsx");
-        if (!res.ok) throw new Error("No se pudo cargar el archivo");
+    fetchReporteVentaHabitaciones().then(limitedRows => {
+      console.log({limitedRows})
 
-        const buf = await res.arrayBuffer();
+      const netSalesBooking = getNetSalesBooking(limitedRows)
 
-        // Leer workbook desde ArrayBuffer (navegador)
-        const wb = XLSX.read(buf, { type: "array" });
+      setNetSalesRooms(netSalesBooking)
+    })
 
-        // Hoja: primera o por nombre
-        const ws = wb.Sheets[wb.SheetNames[0]];
-
-        // A arrays (primera fila = encabezados)
-        const data = XLSX.utils.sheet_to_json(ws, { header: 1 });
-
-        console.log(data);
-        // setRows(data);
-      } catch (err) {
-        console.error(err);
-      }
-    };
-
-    runIngresosyGastos(); // <-- llamamos la IIFE async (sin await aquí)
+    // fetchVentasSkill().then(limitedRows => {
+    //   console.log({limitedRows})
 
 
- const fetchReporteVentaHabitaciones = async () => {
-      try {
-        // 1. Cargar archivo desde /public/data
-        const res = await fetch("/public/REPORTE VENTA DE HABOTACIONES (1).xlsx");
-        if (!res.ok) throw new Error("No se pudo cargar el archivo");
 
-        const buf = await res.arrayBuffer();
-
-        // 2. Leer workbook
-        const workbook = XLSX.read(buf, { type: "array" });
-
-        // 3. Seleccionar la primera hoja (o por nombre si lo conocés)
-        const sheetName = workbook.SheetNames[0];
-        const sheet = workbook.Sheets[sheetName];
-
-        // 4. Convertir a arrays (filas)
-        const data = XLSX.utils.sheet_to_json(sheet, { header: 1, range: "A1:E30" });
-
-        console.log(data);
-        // setRows(data);
-      } catch (err) {
-        console.error("Error leyendo Excel:", err);
-      }
-    };
-
-    fetchReporteVentaHabitaciones();
-
+    //   const netSales = getNetSalesRestaurant(limitedRows)
+    //   setNetSalesRestaurant(netSales)
+    // })
   
+  const totalIncome = netSalesRestaurant + netSalesRooms //Esto es de solo 1 dia, tengo que hacerlo en todos
+  const totalExpenses = 500
+
   return (
     <>    
       <h1 className='text-2xl font-bold'>Dashboard</h1>
@@ -145,7 +98,7 @@ const chart2 = {
           <a href="#">
               <h5 className="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">Ingresos totales</h5>
           </a>
-          <p className="mb-3 font-normal text-gray-700 dark:text-gray-400">1,000,000 CRC</p>
+          <p className="mb-3 font-normal text-gray-700 dark:text-gray-400">{totalIncome}</p>
          
       </div>
 
@@ -154,7 +107,7 @@ const chart2 = {
           <a href="#">
               <h5 className="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">Gastos totales</h5>
           </a>
-          <p className="mb-3 font-normal text-gray-700 dark:text-gray-400">500,000 CRC</p>
+          <p className="mb-3 font-normal text-gray-700 dark:text-gray-400">{totalExpenses}</p>
           
       </div>
 
