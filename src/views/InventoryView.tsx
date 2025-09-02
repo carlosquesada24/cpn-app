@@ -3,6 +3,7 @@ import { InventoryTable } from "../components/InventoryTable"
 import { PRODUCTS_LIST } from "../data"
 import supabase from "../utils/supabase";
 import { useEffect, useState } from "react";
+import WeekSelectionDropDown from "../components/WeekSelectionDropDown/WeekSelectionDropDown";
 
 const InventoryView = () => {
 
@@ -35,6 +36,10 @@ const InventoryView = () => {
   return (
     <div>
       <h1 className='text-2xl font-bold mb-4'>Inventarios</h1>
+
+      
+
+    <WeekSelectionDropDown/>
 
 
       <InventoryTable inventoryProductsList={products} />
