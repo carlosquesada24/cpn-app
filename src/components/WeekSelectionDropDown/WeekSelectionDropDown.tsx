@@ -1,36 +1,52 @@
 import React, { useState } from 'react'
 import supabase from '../../utils/supabase';
 
-const WeekSelectionDropDown = () => {
+type WeekSelectionDropDownProps = {
+  onResult: Function
+}
+
+const WeekSelectionDropDown = ({onResult}: WeekSelectionDropDownProps) => {
 
     const [selectedWeek, setSelectedWeek] = useState(null);
 
   const weeks = [
-    { id: 1, label: "Semana 1 (3 Ago – 9 Ago)", value: "2025-08-03" },
-    { id: 2, label: "Semana 2 (10 Ago – 16 Ago)", value: "2025-08-10" },
-    { id: 3, label: "Semana 3 (17 Ago – 23 Ago)", value: "2025-08-17" },
-    { id: 4, label: "Semana 4 (24 Ago – 30 Ago)", value: "2025-08-24" },
+    { id: 1, label: "Semana 1 (3 Ago – 9 Ago)", value: "2025-08-03", startDate: "2025-08-03", endDate: "2025-08-09" },
+    { id: 2, label: "Semana 2 (10 Ago – 16 Ago)", value: "2025-08-10", startDate: "2025-08-10", endDate: "2025-08-16" },
+    { id: 3, label: "Semana 3 (17 Ago – 23 Ago)", value: "2025-08-17", startDate: "2025-08-17", endDate: "2025-08-23" },
+    { id: 4, label: "Semana 4 (24 Ago – 30 Ago)", value: "2025-08-24", startDate: "2025-08-24", endDate: "2025-08-30" },
   ];
 
-  const handleSelect = async (value) => {
+  const handleSelect = async (week) => {
+    const {value, startDate, endDate} = week
 
     setSelectedWeek(value);
+    console.log({valueSelectedWeek: value})
 
+    // Esto no estoy seguro de hacer el fetch a InventoryMovements porque, ¿cómo voy a ver la info de los productos que no se han contado?
     const inventoryMovementsRows = await supabase
       .from('InventoryMovements')
-      .select()
-       .gte('countDate', '2025-08-03') // Start date (inclusive)
-        .lte('countDate', '2025-08-09'); // End date (inclusive)
+      .select(`
+        id,
+        countDate,
+        ingresoQuantity,
+        mermaQuantity,
+        productId,
+        Products:productId ( id, name, category, status, count )
+      `)
+          .gte('countDate', startDate) // Start date (inclusive)
+            .lte('countDate', endDate); // End date (inclusive)
 
-    // console.log({inventoryMovementsRows})
+  // .gte('countDate', start)
+  // .lte('countDate', end);
 
-    inventoryMovementsRows?.data?.map(row => {
-      console.log({row})
-    })
+  // data => filas de InventoryMovements con el objeto Products embebido
+
+        onResult(inventoryMovementsRows.data)
+
+    console.log({inventoryMovementsRows})
 
   };
 
-  console.log({selectedWeek})
 
     return (
         <>
@@ -46,7 +62,7 @@ const WeekSelectionDropDown = () => {
                 <ul className="py-2 text-sm text-gray-700 dark:text-gray-200" aria-labelledby="dropdownDefaultButton">
                     {
                       weeks.map(week => (
-                        <li className={`block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white ${selectedWeek === week.value && "dark:bg-primary-700"}`} onClick={() => handleSelect(week.value)}>{week.label}</li>
+                        <li className={`block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white ${selectedWeek === week.value && "dark:bg-primary-700"}`} onClick={() => handleSelect(week)}>{week.label}</li>
                       ))
                     }
                 </ul>
