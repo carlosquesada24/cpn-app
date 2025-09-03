@@ -8,8 +8,10 @@ import WeekSelectionDropDown from "../components/WeekSelectionDropDown/WeekSelec
 const InventoryView = () => {
 
   const [products, setProducts] = useState<any[]>(PRODUCTS_LIST)
+    const [rows, setRows] = useState<any[]>([]);
 
 
+  console.log({rows})
 
   useEffect(() => {
 
@@ -29,20 +31,35 @@ const InventoryView = () => {
       const isDataNullable = data?.length === 0 || data == null
 
       setProducts(isDataNullable ? [] : data)
+      setRows(isDataNullable ? [] : data)
     };
+
     getAllProducts()
   }, [])
 
+
+
+// Cambiar esta vara en el fetch general de productos
+// Me está dando 1 formato fuck
+   const productsForTable = rows.map(r => ({
+    id: r.Products?.id ?? r.productId,
+    name: r.Products?.name ?? "—",
+    category: r.Products?.category ?? "—",
+    status: r.Products?.status ?? "PENDING",
+    count: r.Products?.count ?? 0,
+  }));
+
   return (
+    
     <div>
       <h1 className='text-2xl font-bold mb-4'>Inventarios</h1>
 
       
 
-    <WeekSelectionDropDown/>
+    <WeekSelectionDropDown onResult={setRows}/>
 
 
-      <InventoryTable inventoryProductsList={products} />
+      <InventoryTable inventoryProductsList={productsForTable} />
     </div>
   )
 }
