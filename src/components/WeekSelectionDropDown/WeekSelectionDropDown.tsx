@@ -33,11 +33,8 @@ const WeekSelectionDropDown = ({onResult}: WeekSelectionDropDownProps) => {
         productId,
         Products:productId ( id, name, category, status, count )
       `)
-          .gte('countDate', startDate) // Start date (inclusive)
-            .lte('countDate', endDate); // End date (inclusive)
-
-  // .gte('countDate', start)
-  // .lte('countDate', end);
+          .gte('countDate', startDate)
+            .lte('countDate', endDate); 
 
   // data => filas de InventoryMovements con el objeto Products embebido
 
