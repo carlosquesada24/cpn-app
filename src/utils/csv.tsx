@@ -1,6 +1,6 @@
 import * as XLSX from "xlsx";
 
-export const runIngresosyGastos = async () => {
+export const readIngresosyGastosReport = async () => {
       try {
         // Si el archivo está en /public/data/EJEMPLO FLUJO INGRESO Y SALIDAS.xlsx
         const res = await fetch("/EJEMPLO FLUJO INGRESO Y SALIDAS.xlsx");
@@ -25,7 +25,7 @@ export const runIngresosyGastos = async () => {
     };
 
 
-    export const fetchReporteVentaHabitaciones = async () => {
+    export const readVentaHabitacionesReport = async () => {
       try {
 
   console.log("VENTAS Habiltaciones")
@@ -61,7 +61,7 @@ export const runIngresosyGastos = async () => {
 
 
 
-    export const fetchVentasSkill = async () => {
+    export const readVentasSkillReport = async () => {
       try {
 
         console.log("VENTAS restaurante")

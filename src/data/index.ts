@@ -196,3 +196,55 @@ count: 10
 count: 10
   },
 ];
+
+
+export const chart1 = {
+    options: {
+            chart: {
+              id: "basic-bar"
+            },
+            xaxis: {
+              categories: [1991, 1992, 1993, 1994, 1995, 1996, 1997, 1998, 1999]
+            }
+          },
+          series: [
+            {
+              name: "series-1",
+              data: [30, 40, 45, 50, 49, 60, 70, 91]
+            }
+          ]
+  }
+
+export const chart2 = {
+    options: {
+            chart: {
+              id: "basic-bar"
+            },
+            xaxis: {
+              categories: ["Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto"]
+            },
+          },
+          series: [
+            {
+              name: "series-1",
+              data: [1000000, 500000, 750000, 750000, 750000, 750000, 750000, 750000]
+            }
+          ]
+  }
+
+  export const chart3 = {
+    options: {
+            chart: {
+              id: "basic-bar"
+            },
+            xaxis: {
+              categories: ["Q1", "Q2", "Q3", "Q4"]
+            },
+          },
+          series: [
+            {
+              name: "series-1",
+              data: [1000000, 500000, 750000, 750000]
+            }
+          ]
+  }
