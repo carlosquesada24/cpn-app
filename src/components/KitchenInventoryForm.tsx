@@ -16,8 +16,14 @@ type KitchenInventoryFormProps = {
 };
 
 const KITCHEN_INVENTORY_FORM_INITIAL_STATE = {
+  countDate: "",
   cantidadIngreso: null, 
   cantidadMerma: null
+}
+
+const formatDate = (dateString: Date) => {
+  const date = new Date(dateString);
+  return date.toISOString().split("T")[0]; 
 }
 
 const KitchenInventoryForm = () => {
@@ -27,6 +33,7 @@ const KitchenInventoryForm = () => {
 
   const {values: formValues, handleInputChange} = useForm(KITCHEN_INVENTORY_FORM_INITIAL_STATE, {})
 
+  console.log({formValues})
 
   const existsProductId = typeof productId === "string";
 
@@ -88,7 +95,21 @@ const productFound =
     const newCount = previousCount + valueToSum
 
     // Paso 3 - Editar en la DB
-    const {data, error} = await supabase.from('Products').update({count: newCount, status: "DONE"}).eq('id', productId)
+    // const {data, error} = await supabase.from('Products').update({count: newCount, status: "DONE"}).eq('id', productId)
+    // console.log(data, error)
+
+    const newInventoryMovementItem = {
+      productId,
+      countDate: formValues.countDate,
+      ingresoQuantity: formValues.cantidadIngreso,
+      mermaQuantity: formValues.cantidadMerma
+    }
+
+     const {data, error} = 
+      await supabase
+        .from('InventoryMovements')
+        .insert(newInventoryMovementItem)
+
     console.log(data, error)
 
     // Paso 4 - Redireccionar a la vista de inventory
@@ -108,7 +129,13 @@ const productFound =
           </Label>
         </div>
 
-        <Datepicker />
+        <Datepicker onChange={(value) => {
+          
+          const valueToPass = formatDate(value ?? new Date())
+
+          handleInputChange("countDate", valueToPass)
+          
+          }}/>
       </div>
 
       {existsProductId ? (
