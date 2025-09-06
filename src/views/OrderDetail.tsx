@@ -28,7 +28,7 @@ const OrderDetailsView = () => {
 
  useEffect(() => {
 
-    const getProductById = async () => {
+    const getOrderById = async () => {
 
       const { data, error } = await supabase.from("Orders").select(`
         id,
@@ -45,7 +45,29 @@ const OrderDetailsView = () => {
 
       setSelectedOrder(isDataNullable ? {} : data)
     };
-    getProductById()
+
+
+    const getProductsToOrder = async() => {
+
+      const inventoryMovementsRows = await supabase
+            .from('InventoryMovements')
+            .select(`
+              id,
+              countDate,
+              ingresoQuantity,
+              mermaQuantity,
+              productId,
+              Products:productId ( id, name, category, status, count )
+            `)
+                .gte('countDate', "2025-08-10")
+                  .lte('countDate', "2025-08-16"); 
+
+                  console.log({inventoryMovementsRows})
+    }
+
+
+    getOrderById()
+    getProductsToOrder()
   }, [])
 
 

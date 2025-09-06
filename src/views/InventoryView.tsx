@@ -3,12 +3,12 @@ import { InventoryTable } from "../components/InventoryTable"
 import { PRODUCTS_LIST } from "../data"
 import supabase from "../utils/supabase";
 import { useEffect, useState } from "react";
+import WeekSelectionDropDown from "../components/WeekSelectionDropDown/WeekSelectionDropDown";
 
 const InventoryView = () => {
 
   const [products, setProducts] = useState<any[]>(PRODUCTS_LIST)
-
-
+    const [rows, setRows] = useState<any[]>([]);
 
   useEffect(() => {
 
@@ -28,16 +28,35 @@ const InventoryView = () => {
       const isDataNullable = data?.length === 0 || data == null
 
       setProducts(isDataNullable ? [] : data)
+      setRows(isDataNullable ? [] : data)
     };
+
     getAllProducts()
   }, [])
 
+
+
+// Cambiar esta vara en el fetch general de productos
+// Me está dando 1 formato fuck
+   const productsTableFormatted = rows.map(r => ({
+    id: r.Products?.id ?? r.productId,
+    name: r.Products?.name ?? r.name ?? "-",
+    category: r.Products?.category ?? r.category ?? "-",
+    status: r.Products?.status ?? r.status ?? "-",
+    count: r.Products?.count ?? r.status ?? 0,
+  }));
+
   return (
+    
     <div>
       <h1 className='text-2xl font-bold mb-4'>Inventarios</h1>
 
+      
 
-      <InventoryTable inventoryProductsList={products} />
+    <WeekSelectionDropDown onResult={setRows}/>
+
+
+      <InventoryTable inventoryProductsList={productsTableFormatted} />
     </div>
   )
 }
