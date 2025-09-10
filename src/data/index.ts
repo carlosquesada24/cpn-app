@@ -53,7 +53,7 @@ count: 10
     name: "MARLIN ROSADO",
     status: PRODUCT_TYPES.PENDING,
     category: "Proteína",
-count: 10
+count: 33
   },
   {
     id: "a7c9e6b3-3f8a-4e1b-87c6-5d2e1b9f8a6c",

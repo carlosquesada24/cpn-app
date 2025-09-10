@@ -2,6 +2,9 @@ import { useEffect, useState } from "react";
 import { Link, useNavigate, useParams } from "react-router";
 import { useForm } from "../hooks/useForm";
 import supabase from "../utils/supabase";
+import { PRODUCTS_LIST } from "../data";
+import * as XLSX from "xlsx";
+
 
 const ORDER_STATES = {
   1: "Pendiente de enviar",
@@ -78,7 +81,36 @@ const OrderDetailsView = () => {
     navigate("/orders")
   }
 
+  console.log(PRODUCTS_LIST)
 
+  const exportHojaPedidos = () => {
+    // 1) Cabecera similar a “HOJA DE PEDIDOS COCINA”
+    const today = new Date().toISOString().slice(0,10);
+    const header = [
+      ["HOJA DE PEDIDOS COCINA"],
+      ["Orden:", selectedOrder?.name ?? ""],
+      ["Fecha:", today],
+      [],
+      ["#", "Artículo", "Categoría", "Monto base", "Inventario final anterior", "Cantidad a pedir"],
+    ];
+
+    // 2) Filas desde lo que hay hoy en OrderDetails (PRODUCTS_LIST)
+    //    Ajusta “base” según tu lógica/tabla (ej. target_stock) y toma “count” si existe.
+    const baseDefault = 30;
+    const rows = PRODUCTS_LIST.map((p: any, i: number) => {
+      const prev = Number(p?.count ?? 0);
+      const base = Number(p?.target_stock ?? baseDefault);
+      const toOrder = Math.max(base - prev, 0);
+      return [i + 1, p?.name ?? "-", p?.category ?? "-", base, prev, toOrder];
+    });
+
+    // 3) Construir sheet y exportar
+    const ws = XLSX.utils.aoa_to_sheet([...header, ...rows]);
+    ws["!cols"] = [{wch:4},{wch:30},{wch:18},{wch:12},{wch:22},{wch:14}];
+    const wb = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(wb, ws, "PEDIDO COCINA");
+    XLSX.writeFile(wb, `HOJA_DE_PEDIDOS_COCINA_${selectedOrder?.name ?? "orden"}.xlsx`);
+  };
 
   return (
     <div>
@@ -86,7 +118,7 @@ const OrderDetailsView = () => {
         
         <span className={"mt-2"+ORDER_STATES_BADGE_STYLE[selectedOrder?.state ?? 1]}>{ORDER_STATES[selectedOrder?.state ?? 1] ?? ""}</span>
         
-        <button type="button" className="mt-2 inline-flex items-center rounded-lg bg-green-700 p-2 px-4 text-sm font-medium text-white hover:bg-green-800 focus:outline-none focus:ring-4  focus:ring-primary-300 dark:bg-green-600 dark:hover:bg-green-700 dark:focus:ring-green-800">
+        <button onClick={exportHojaPedidos} type="button" className="mt-2 inline-flex items-center rounded-lg bg-green-700 p-2 px-4 text-sm font-medium text-white hover:bg-green-800 focus:outline-none focus:ring-4  focus:ring-primary-300 dark:bg-green-600 dark:hover:bg-green-700 dark:focus:ring-green-800">
               Enviar reporte a WhatsApp
         </button>
 
@@ -101,33 +133,24 @@ const OrderDetailsView = () => {
        <section className="mt-4">
          <h2 className="text-2xl text-bold">Resumen</h2>
 
-        <div className="mb-4">
-            <p>Producto 1</p>
-            <h1>Monto base: 30</h1>
-            <h1>Inventario final anterior: 5</h1>
-            <h1>Próximo pedido: +25</h1>
-        </div>
-
-        <div className="mb-4">
-            <p>Producto 2</p>
-            <h1>Monto base: 30</h1>
-            <h1>Inventario final anterior: 5</h1>
-            <h1>Próximo pedido: +25</h1>
-        </div>
-
-        <div>
-            <p>Producto 3</p>
-            <h1>Monto base: 30</h1>
-            <h1>Inventario final anterior: 5</h1>
-            <h1>Próximo pedido: +25</h1>
-        </div>  
+        {
+          PRODUCTS_LIST.map(product => (
+            <div className="mb-4">
+                <p>{product.name}</p>
+                <h1>Monto base: 777</h1>
+                <h1>Inventario final anterior: 5</h1>
+                <h1>Próximo pedido: +25</h1>
+                   <button type="button" className="mt-2 inline-flex items-center rounded-lg bg-primary-700 p-2 px-4 text-sm font-medium text-white hover:bg-primary-800 focus:outline-none focus:ring-4  focus:ring-primary-300 dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800">
+              Editar
+            </button>
+            </div>  
+          ))
+        }
        </section>
         
 
 
-         <button type="button" className="mt-2 inline-flex items-center rounded-lg bg-primary-700 p-2 px-4 text-sm font-medium text-white hover:bg-primary-800 focus:outline-none focus:ring-4  focus:ring-primary-300 dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800">
-              Editar
-            </button>
+      
 
 
          
