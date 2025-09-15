@@ -99,8 +99,8 @@ const productFound =
     // console.log(data, error)
 
     const newInventoryMovementItem = {
-      productId,
-      countDate: formValues.countDate,
+      productId: parseInt(productId ?? ""),
+      // countDate: formValues.countDate,
       ingresoQuantity: formValues.cantidadIngreso,
       mermaQuantity: formValues.cantidadMerma
     }

@@ -1,62 +1,19 @@
-import { Link } from "react-router"
-import { InventoryTable } from "../components/InventoryTable"
-import { PRODUCTS_LIST } from "../data"
-import supabase from "../utils/supabase";
-import { useEffect, useState } from "react";
+import { InventoryTable } from "../components/InventoryTable";
 import WeekSelectionDropDown from "../components/WeekSelectionDropDown/WeekSelectionDropDown";
+import { useGlobal } from "../contexts/GlobalContext";
 
 const InventoryView = () => {
 
-  const [products, setProducts] = useState<any[]>(PRODUCTS_LIST)
-    const [rows, setRows] = useState<any[]>([]);
+  const {inventory: {productsList, productsTableFormatted, rows, setRows}} = useGlobal()
 
-  useEffect(() => {
-
-    const getAllProducts = async () => {
-      const { data, error } = await supabase.from("Products").select(`
-        id,
-        name, 
-        status,
-        category,
-        count
-        `);
-
-      if (error) {
-        console.log({ error });
-      }
-
-      const isDataNullable = data?.length === 0 || data == null
-
-      setProducts(isDataNullable ? [] : data)
-      setRows(isDataNullable ? [] : data)
-    };
-
-    getAllProducts()
-  }, [])
-
-
-
-// Cambiar esta vara en el fetch general de productos
-// Me está dando 1 formato fuck
-   const productsTableFormatted = rows.map(r => ({
-    id: r.Products?.id ?? r.productId,
-    name: r.Products?.name ?? r.name ?? "-",
-    category: r.Products?.category ?? r.category ?? "-",
-    status: r.Products?.status ?? r.status ?? "-",
-    count: r.Products?.count ?? r.status ?? 0,
-  }));
-
+  console.log({productsList})
   return (
-    
     <div>
       <h1 className='text-2xl font-bold mb-4'>Inventarios</h1>
 
-      
+      <WeekSelectionDropDown onResult={setRows} />
 
-    <WeekSelectionDropDown onResult={setRows}/>
-
-
-      <InventoryTable inventoryProductsList={productsTableFormatted} />
+      <InventoryTable inventoryProductsList={rows} />
     </div>
   )
 }
