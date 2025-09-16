@@ -9,6 +9,8 @@ interface GlobalContextData {
     productsTableFormatted: any[],
     rows: any[],
     setRows: Function,
+    productsCountedQuantity: number
+    productsPendingToCountQuantity: number
   };
 //   countProductsList: any[];
 
@@ -23,8 +25,12 @@ export const GlobalContext = createContext<GlobalContextData>({
   inventory: {
     productsList: [],
     productsTableFormatted: [],
+
     rows: [],
     setRows: () => {},
+
+    productsCountedQuantity: 0,
+    productsPendingToCountQuantity: 0
   },
     // countProductsList: []
 });
@@ -34,7 +40,8 @@ export const GlobalProvider: React.FC<{ children: any }> = ({ children }) => {
 //   const [productsList, setProductsList] = useState<any[]>([]);
 //   const [countProductsList, setCountProductsList] = useState<any[]>([]);
 
-  const { productsList, productsTableFormatted, rows, setRows } = useInventory()
+  const { productsList, productsTableFormatted, rows, setRows, productsCountedQuantity,
+    productsPendingToCountQuantity } = useInventory()
 
   useEffect(() => {
     
@@ -45,6 +52,8 @@ export const GlobalProvider: React.FC<{ children: any }> = ({ children }) => {
     productsTableFormatted,
     rows,
     setRows,
+    productsCountedQuantity,
+    productsPendingToCountQuantity,
     // countProducts
     // etc
     // Pending to change the name

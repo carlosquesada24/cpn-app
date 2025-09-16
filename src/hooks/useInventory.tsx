@@ -7,6 +7,8 @@ export const useInventory = () => {
   const [productsList, setProductsList] = useState<any[]>(PRODUCTS_LIST);
   const [rows, setRows] = useState<any[]>([]);
   const [countProductsList, setCountProductsList] = useState<any[]>([]);
+  let productsCountedQuantity = 0
+  let productsPendingToCountQuantity = 0
 
   // Week helpers (Sunday start)
   const getWeekRange = (date = new Date()) => {
@@ -54,6 +56,8 @@ export const useInventory = () => {
       setCountProductsList(counted);
       // Show only pending items in the table UI
       setRows(pending);
+      productsCountedQuantity = counted.length
+      productsPendingToCountQuantity = pending.length 
     };
 
     load();
@@ -74,5 +78,7 @@ export const useInventory = () => {
     rows,
     setRows,
     productsTableFormatted,
+    productsCountedQuantity,
+    productsPendingToCountQuantity
   };
 };

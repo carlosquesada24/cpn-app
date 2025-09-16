@@ -14,7 +14,8 @@ const getCurrentWeekInMonthText = () => {
 
 const InventoryView = () => {
 
-  const {inventory: {productsList, productsTableFormatted, rows, setRows}} = useGlobal()
+  const {inventory: {productsList, productsTableFormatted, rows, setRows, productsCountedQuantity,
+    productsPendingToCountQuantity}} = useGlobal()
 
   console.log({productsList})
   return (
@@ -26,6 +27,9 @@ const InventoryView = () => {
       </p>
 
       {/* <WeekSelectionDropDown onResult={setRows} /> */}
+
+    <p>Productos contados: {productsCountedQuantity}</p>
+      <p>Productos pendientes de contar: {productsPendingToCountQuantity}</p>
 
       <InventoryTable inventoryProductsList={rows} />
     </div>
