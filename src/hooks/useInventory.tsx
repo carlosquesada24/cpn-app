@@ -23,44 +23,40 @@ export const useInventory = () => {
     return { start, end };
   };
 
+  const refreshInventory = async () => {
+    const { start, end } = getWeekRange();
+
+    const [productsRes, movementsRes] = await Promise.all([
+      supabase
+        .from("Products")
+        .select("id, name, status, category, count"),
+      supabase
+        .from("InventoryMovements")
+        .select("productId, created_at")
+        .gte("created_at", start.toISOString())
+        .lte("created_at", end.toISOString()),
+    ]);
+
+    if (productsRes.error) console.log({ error: productsRes.error });
+    if (movementsRes.error) console.log({ error: movementsRes.error });
+
+    const products = productsRes.data ?? [];
+    const movements = movementsRes.data ?? [];
+
+    setProductsList(products);
+
+    const countedIds = new Set((movements as any[]).map((m: any) => m.productId));
+    const counted = products.filter((p: any) => countedIds.has(p.id));
+    const pending = products.filter((p: any) => !countedIds.has(p.id));
+
+    setCountProductsList(counted);
+    setRows(pending);
+    productsCountedQuantity = counted.length;
+    productsPendingToCountQuantity = pending.length;
+  };
+
   useEffect(() => {
-    const load = async () => {
-      const { start, end } = getWeekRange();
-
-      const [productsRes, movementsRes] = await Promise.all([
-        supabase
-          .from("Products")
-          .select("id, name, status, category, count"),
-        // Filter movements by current week using created_at
-        supabase
-          .from("InventoryMovements")
-          .select("productId, created_at")
-          .gte("created_at", start.toISOString())
-          .lte("created_at", end.toISOString()),
-      ]);
-
-      if (productsRes.error) console.log({ error: productsRes.error });
-      if (movementsRes.error) console.log({ error: movementsRes.error });
-
-      const products = productsRes.data ?? [];
-      const movements = movementsRes.data ?? [];
-
-      console.log({movements})
-
-      setProductsList(products);
-
-      const countedIds = new Set((movements as any[]).map((m: any) => m.productId));
-      const counted = products.filter((p: any) => countedIds.has(p.id));
-      const pending = products.filter((p: any) => !countedIds.has(p.id));
-
-      setCountProductsList(counted);
-      // Show only pending items in the table UI
-      setRows(pending);
-      productsCountedQuantity = counted.length
-      productsPendingToCountQuantity = pending.length 
-    };
-
-    load();
+    refreshInventory();
   }, []);
 
   // Normalize for table consumers (works with joined or plain rows)
@@ -79,6 +75,7 @@ export const useInventory = () => {
     setRows,
     productsTableFormatted,
     productsCountedQuantity,
-    productsPendingToCountQuantity
+    productsPendingToCountQuantity,
+    refreshInventory,
   };
 };
