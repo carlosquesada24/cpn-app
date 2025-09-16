@@ -2,82 +2,70 @@ import { useEffect, useState } from "react";
 import supabase from "../utils/supabase";
 import { PRODUCTS_LIST } from "../data";
 
-// Lo de las rows se va a utils
-
+// Minimal, clear logic: rows = products pending to count
 export const useInventory = () => {
-  const [productsList, setProductsList] = useState<any[]>(PRODUCTS_LIST)
-      const [rows, setRows] = useState<any[]>([]);
-      const [countProductsList, setCountProductsList] = useState<any[]>([])
-  
-    useEffect(() => {
-  
-      const getAllProducts = async () => {
-        const { data, error } = await supabase.from("Products").select(`
-          id,
-          name, 
-          status,
-          category,
-          count
-          `);
-  
-        if (error) {
-          console.log({ error });
-        }
-  
-        const isDataNullable = data?.length === 0 || data == null
-  
-        setProductsList(isDataNullable ? [] : data)
-        setRows(isDataNullable ? [] : data)
-      };
-  
-       const getAllInventoryMovements = async () => {
-        const { data: inventoryMovementsData, error } = await supabase.from("InventoryMovements").select(`
-            id,
-            created_at,
-            Products (   id,
-          name, 
-          status,
-          category,
-          count)
-          `)
-  
-        if (error) {
-          console.log({ error });
-        }
-  
-        console.log({data: inventoryMovementsData})
-  
-        // Productos contados
-        const countProductsList = [inventoryMovementsData[0].Products]
-        console.log({countProductsList})
-        setCountProductsList(countProductsList)
+  const [productsList, setProductsList] = useState<any[]>(PRODUCTS_LIST);
+  const [rows, setRows] = useState<any[]>([]);
+  const [countProductsList, setCountProductsList] = useState<any[]>([]);
 
-  
-        const uncountProductsList = productsList.filter()
-        console.log({uncountProductsList})
-  
-        //
-  
-        const allTableProducts = [
-          ...countProducts,
-          ...productsList
-        ]
-  
-        console.log({allTableProducts})
-      };
-  
-      getAllProducts()
-      getAllInventoryMovements()
-    }, [])
+  // Week helpers (Sunday start)
+  const getWeekRange = (date = new Date()) => {
+    const start = new Date(date);
+    const day = start.getDay(); // 0=Sun
+    start.setDate(start.getDate() - day);
+    start.setHours(0, 0, 0, 0);
 
-    // Cambiar esta vara en el fetch general de productos
-// Me está dando 1 formato fuck
-   const productsTableFormatted = rows.map(r => ({
-    id: r.Products?.id ?? r.productId,
-    name: r.Products?.name ?? r.name ?? "-",
-    category: r.Products?.category ?? r.category ?? "-",
-    status: r.Products?.status ?? r.status ?? "-",
-    count: r.Products?.count ?? r.status ?? 0,
+    const end = new Date(start);
+    end.setDate(start.getDate() + 6);
+    end.setHours(23, 59, 59, 999);
+    return { start, end };
+  };
+
+  useEffect(() => {
+    const load = async () => {
+      const { start, end } = getWeekRange();
+
+      const [productsRes, movementsRes] = await Promise.all([
+        supabase
+          .from("Products")
+          .select("id, name, status, category, count"),
+        // Filter movements by current week using created_at
+        supabase
+          .from("InventoryMovements")
+          .select("productId, created_at")
+          .gte("created_at", start.toISOString())
+          .lte("created_at", end.toISOString()),
+      ]);
+
+      if (productsRes.error) console.log({ error: productsRes.error });
+      if (movementsRes.error) console.log({ error: movementsRes.error });
+
+      const products = productsRes.data ?? [];
+      const movements = movementsRes.data ?? [];
+
+      console.log({movements})
+
+      setProductsList(products);
+
+      const countedIds = new Set((movements as any[]).map((m: any) => m.productId));
+      const counted = products.filter((p: any) => countedIds.has(p.id));
+      const pending = products.filter((p: any) => !countedIds.has(p.id));
+
+      setCountProductsList(counted);
+      // Show only pending items in the table UI
+      setRows(pending);
+    };
+
+    load();
+  }, []);
+
+  // Normalize for table consumers (works with joined or plain rows)
+  const productsTableFormatted = rows.map((row: any) => ({
+    id: row.Products?.id ?? row.productId ?? row.id,
+    name: row.Products?.name ?? row.name ?? "-",
+    category: row.Products?.category ?? row.category ?? "-",
+    status: row.Products?.status ?? row.status ?? "-",
+    count: row.Products?.count ?? row.count ?? 0,
   }));
 
   return {
@@ -85,6 +73,6 @@ export const useInventory = () => {
     countProductsList,
     rows,
     setRows,
-    productsTableFormatted
+    productsTableFormatted,
   };
 };
