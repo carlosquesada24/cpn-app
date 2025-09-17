@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router";
+import OrderProductCard from "../components/OrderProductCard";
 import supabase from "../utils/supabase";
 import { useGlobal } from "../contexts/GlobalContext";
 import { exportHojaPedidos } from "../utils/orders-utils";
@@ -87,18 +88,7 @@ const OrderDetailsView = () => {
         <h2 className="text-2xl text-bold">Resumen</h2>
 
         {productsList.map((product: any) => (
-          <div className="mb-4" key={product?.id ?? product?.name}>
-            <p>{product.name}</p>
-            <h1>Monto base: 777</h1>
-            <h1>Inventario final anterior: 5</h1>
-            <h1>Proximo pedido: +25</h1>
-            <button
-              type="button"
-              className="mt-2 inline-flex items-center rounded-lg bg-primary-700 p-2 px-4 text-sm font-medium text-white hover:bg-primary-800 focus:outline-none focus:ring-4  focus:ring-primary-300 dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800"
-            >
-              Editar
-            </button>
-          </div>
+          <OrderProductCard key={product?.id ?? product?.name} product={product} />
         ))}
       </section>
     </div>
