@@ -1,9 +1,8 @@
 import { useEffect, useState } from "react";
-import { Link, useNavigate, useParams } from "react-router";
-import { useForm } from "../hooks/useForm";
+import { useNavigate, useParams } from "react-router";
 import supabase from "../utils/supabase";
-import * as XLSX from "xlsx";
 import { useGlobal } from "../contexts/GlobalContext";
+import { exportHojaPedidos } from "../utils/orders-utils";
 
 const ORDER_STATES = {
   1: "Pendiente de enviar",
@@ -59,32 +58,8 @@ const OrderDetailsView = () => {
 
   console.log(productsList);
 
-  const exportHojaPedidos = () => {
-    // 1) Cabecera similar a "HOJA DE PEDIDOS COCINA"
-    const today = new Date().toISOString().slice(0, 10);
-    const header = [
-      ["HOJA DE PEDIDOS COCINA"],
-      ["Orden:", selectedOrder?.name ?? ""],
-      ["Fecha:", today],
-      [],
-      ["#", "Articulo", "Categoria", "Monto base", "Inventario final anterior", "Cantidad a pedir"],
-    ];
-
-    // 2) Filas desde lo que hay hoy en OrderDetails (productos de inventario)
-    const baseDefault = 30;
-    const rows = productsList.map((p: any, i: number) => {
-      const prev = Number(p?.count ?? 0);
-      const base = Number(p?.target_stock ?? baseDefault);
-      const toOrder = Math.max(base - prev, 0);
-      return [i + 1, p?.name ?? "-", p?.category ?? "-", base, prev, toOrder];
-    });
-
-    // 3) Construir sheet y exportar
-    const ws = XLSX.utils.aoa_to_sheet([...header, ...rows]);
-    ws["!cols"] = [{ wch: 4 }, { wch: 30 }, { wch: 18 }, { wch: 12 }, { wch: 22 }, { wch: 14 }];
-    const wb = XLSX.utils.book_new();
-    XLSX.utils.book_append_sheet(wb, ws, "PEDIDO COCINA");
-    XLSX.writeFile(wb, `HOJA_DE_PEDIDOS_COCINA_${selectedOrder?.name ?? "orden"}.xlsx`);
+  const handleExportHojaPedidos = () => {
+    exportHojaPedidos(selectedOrder, productsList);
   };
 
   return (
@@ -96,7 +71,7 @@ const OrderDetailsView = () => {
       </span>
 
       <button
-        onClick={exportHojaPedidos}
+        onClick={handleExportHojaPedidos}
         type="button"
         className="mt-2 inline-flex items-center rounded-lg bg-green-700 p-2 px-4 text-sm font-medium text-white hover:bg-green-800 focus:outline-none focus:ring-4  focus:ring-primary-300 dark:bg-green-600 dark:hover:bg-green-700 dark:focus:ring-green-800"
       >
