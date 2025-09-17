@@ -23,8 +23,6 @@ const OrderDetailsView = () => {
   const { inventory } = useGlobal();
   const { productsList = [] } = inventory;
 
-  const existsProductId = typeof id === "string";
-
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -33,7 +31,7 @@ const OrderDetailsView = () => {
         .from("Orders")
         .select(`
         id,
-        name, 
+        name,
         state
         `)
         .eq("id", id)
@@ -49,15 +47,7 @@ const OrderDetailsView = () => {
     };
 
     getOrderById();
-  }, []);
-
-  const onSubmit = async () => {
-    alert("Enviando!");
-
-    navigate("/orders");
-  };
-
-  console.log(productsList);
+  }, [id]);
 
   const handleExportHojaPedidos = () => {
     exportHojaPedidos(selectedOrder, productsList);
@@ -79,16 +69,16 @@ const OrderDetailsView = () => {
         Enviar reporte a WhatsApp
       </button>
 
-      {/* <Link to={"/"} className="inline-flex items-center rounded-lg bg-primary-700 px-5 py-2.5 text-sm font-medium text-white hover:bg-primary-800 focus:outline-none focus:ring-4  focus:ring-primary-300 dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800">
-              Abrir archivo en Google Drive
-            </Link> */}
-
       {/* Esto cambiarlo a dinamico, pero antes preguntar */}
       <section className="mt-4">
         <h2 className="text-2xl text-bold">Resumen</h2>
 
         {productsList.map((product: any) => (
-          <OrderProductCard key={product?.id ?? product?.name} product={product} />
+          <OrderProductCard
+            key={product?.id ?? product?.name}
+            product={product}
+            orderStatus={selectedOrder?.state}
+          />
         ))}
       </section>
     </div>

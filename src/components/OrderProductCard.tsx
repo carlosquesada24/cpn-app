@@ -2,10 +2,10 @@ import React, { useEffect, useState } from "react";
 
 interface OrderProductCardProps {
   product: any;
+  orderStatus?: number;
 }
 
-const OrderProductCard: React.FC<OrderProductCardProps> = ({ product }) => {
-  // Esto tiene que ser reemplazado por un monto a crear en la DB
+const OrderProductCard: React.FC<OrderProductCardProps> = ({ product, orderStatus }) => {
   const baseDefault = 30;
   const calculateDefaults = () => {
     const prev = Number(product?.count ?? 0);
@@ -17,6 +17,7 @@ const OrderProductCard: React.FC<OrderProductCardProps> = ({ product }) => {
   const [{ prev, target, next }, setDefaults] = useState(() => calculateDefaults());
   const [nextOrder, setNextOrder] = useState<string>(String(next));
   const [isEditing, setIsEditing] = useState<boolean>(false);
+  const canEdit = orderStatus === 1;
 
   useEffect(() => {
     const defaults = calculateDefaults();
@@ -25,7 +26,14 @@ const OrderProductCard: React.FC<OrderProductCardProps> = ({ product }) => {
     setIsEditing(false);
   }, [product?.count, product?.target_stock]);
 
+  useEffect(() => {
+    if (!canEdit && isEditing) {
+      setIsEditing(false);
+    }
+  }, [canEdit, isEditing]);
+
   const handleToggleEdit = () => {
+    if (!canEdit) return;
     setIsEditing((prevValue) => !prevValue);
   };
 
@@ -48,13 +56,15 @@ const OrderProductCard: React.FC<OrderProductCardProps> = ({ product }) => {
           <span className="ml-2">+{nextOrder}</span>
         )}
       </h1>
-      <button
-        type="button"
-        className="mt-2 inline-flex items-center rounded-lg bg-primary-700 p-2 px-4 text-sm font-medium text-white hover:bg-primary-800 focus:outline-none focus:ring-4  focus:ring-primary-300 dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800"
-        onClick={handleToggleEdit}
-      >
-        {isEditing ? "Guardar" : "Editar"}
-      </button>
+      {canEdit && (
+        <button
+          type="button"
+          className="mt-2 inline-flex items-center rounded-lg bg-primary-700 p-2 px-4 text-sm font-medium text-white hover:bg-primary-800 focus:outline-none focus:ring-4  focus:ring-primary-300 dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800"
+          onClick={handleToggleEdit}
+        >
+          {isEditing ? "Guardar" : "Editar"}
+        </button>
+      )}
     </div>
   );
 };
