@@ -8,19 +8,22 @@ import InventoryView from "./views/InventoryView.tsx";
 import KitchenInventoryForm from "./components/KitchenInventoryForm.tsx";
 import OrdersView from "./views/OrdersView.tsx";
 import OrderDetailsView from "./views/OrderDetail.tsx";
+import { GlobalProvider } from "./contexts/GlobalContext.tsx";
 
 createRoot(document.getElementById("root")!).render(
   <BrowserRouter>
   <Header/>
     <StrictMode>
+        <GlobalProvider>
       <Routes>
-        <Route index element={<App />} />
-        <Route path="/inventory" element={<InventoryView/>}/>
-         <Route path="/inventory-count-form" element={<KitchenInventoryForm/>} />
-         <Route path="/inventory-count-form/:productId" element={<KitchenInventoryForm/>} />
-         <Route path="/orders" element={<OrdersView/>} />
-         <Route path="/orders/:id" element={<OrderDetailsView/>} />
+          <Route index element={<App />} />
+          <Route path="/inventory" element={<InventoryView/>}/>
+          <Route path="/inventory-count-form" element={<KitchenInventoryForm/>} />
+          <Route path="/inventory-count-form/:productId" element={<KitchenInventoryForm/>} />
+          <Route path="/orders" element={<OrdersView/>} />
+          <Route path="/orders/:id" element={<OrderDetailsView/>} />
       </Routes>
+        </GlobalProvider>
     </StrictMode>
   </BrowserRouter>
 );

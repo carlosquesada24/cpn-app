@@ -10,13 +10,14 @@ import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router";
 import supabase from "../utils/supabase";
 import { useForm } from "../hooks/useForm";
+import { useGlobal } from "../contexts/GlobalContext";
 
 type KitchenInventoryFormProps = {
   productId?: string;
 };
 
 const KITCHEN_INVENTORY_FORM_INITIAL_STATE = {
-  countDate: "",
+  countDate: getTodayDate(),
   cantidadIngreso: null, 
   cantidadMerma: null
 }
@@ -26,12 +27,17 @@ const formatDate = (dateString: Date) => {
   return date.toISOString().split("T")[0]; 
 }
 
+function getTodayDate () {
+return Intl.DateTimeFormat('en-CA', { timeZone: 'America/Costa_Rica' }).format(new Date())
+}
+
 const KitchenInventoryForm = () => {
   const [selectedProduct, setSelectedProduct] = useState<any>(null);
 
   const { productId } = useParams();
 
   const {values: formValues, handleInputChange} = useForm(KITCHEN_INVENTORY_FORM_INITIAL_STATE, {})
+  const { inventory: { refreshInventory } } = useGlobal();
 
   console.log({formValues})
 
@@ -94,12 +100,21 @@ const productFound =
     const valueToSum = cantidadIngresoNumero - cantidadMermaNumero
     const newCount = previousCount + valueToSum
 
-    // Paso 3 - Editar en la DB
-    // const {data, error} = await supabase.from('Products').update({count: newCount, status: "DONE"}).eq('id', productId)
-    // console.log(data, error)
+    // Paso 3 - Actualizar producto (count = previous + valueToSum)
+    const { data: updatedProduct, error: updateError } = await supabase
+      .from('Products')
+      .update({ count: newCount })
+      .eq('id', productId)
+      .select('id, name, count')
+      .single();
+
+    if (updateError) {
+      console.log({ updateError });
+      return;
+    }
 
     const newInventoryMovementItem = {
-      productId,
+      productId: parseInt(productId ?? ""),
       countDate: formValues.countDate,
       ingresoQuantity: formValues.cantidadIngreso,
       mermaQuantity: formValues.cantidadMerma
@@ -112,7 +127,8 @@ const productFound =
 
     console.log(data, error)
 
-    // Paso 4 - Redireccionar a la vista de inventory
+    // Paso 4 - Refrescar inventario global y redireccionar
+    await refreshInventory();
     navigate("/inventory")
   }
 

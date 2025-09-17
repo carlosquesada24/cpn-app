@@ -8,12 +8,14 @@ type InventoryTableProps = {
 
 export const PRODUCT_TYPES_TITLES_ON_TABLE = {
   [PRODUCT_TYPES.PENDING]: "Pendiente",
-  [PRODUCT_TYPES.DONE]: "Contado"
+  // Force all rows to display as pending on the UI
+  [PRODUCT_TYPES.DONE]: "Pendiente"
 }
 
 const BADGE_STYLES = {
     [PRODUCT_TYPES.PENDING]: "bg-yellow-100 text-yellow-800 text-xs font-medium me-2 px-2.5 py-0.5 rounded-sm dark:bg-yellow-900 dark:text-yellow-300",
-    [PRODUCT_TYPES.DONE]: "bg-green-100 text-green-800 text-xs font-medium me-2 px-2.5 py-0.5 rounded-sm dark:bg-green-900 dark:text-green-300"
+    // Use the same badge style for DONE to show as pending
+    [PRODUCT_TYPES.DONE]: "bg-yellow-100 text-yellow-800 text-xs font-medium me-2 px-2.5 py-0.5 rounded-sm dark:bg-yellow-900 dark:text-yellow-300"
 }
 
 export function InventoryTable({inventoryProductsList}: InventoryTableProps) {
