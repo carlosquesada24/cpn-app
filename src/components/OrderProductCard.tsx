@@ -1,8 +1,8 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 
 interface OrderProductCardProps {
   product: any;
-  orderStatus?: number;
+  orderStatus?: number | string | null;
 }
 
 const OrderProductCard: React.FC<OrderProductCardProps> = ({ product, orderStatus }) => {
@@ -17,7 +17,8 @@ const OrderProductCard: React.FC<OrderProductCardProps> = ({ product, orderStatu
   const [{ prev, target, next }, setDefaults] = useState(() => calculateDefaults());
   const [nextOrder, setNextOrder] = useState<string>(String(next));
   const [isEditing, setIsEditing] = useState<boolean>(false);
-  const canEdit = orderStatus === 1;
+
+  const canEdit = useMemo(() => Number(orderStatus ?? 0) === 1, [orderStatus]);
 
   useEffect(() => {
     const defaults = calculateDefaults();
